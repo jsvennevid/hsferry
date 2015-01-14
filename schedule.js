@@ -22,9 +22,9 @@ ScheduleView = Backbone.View.extend({
 
         this.update();
 
-/*        setInterval(_.bind(function () {
+        setInterval(_.bind(function () {
             this.update();
-        }, this), 60 * 1000);*/
+        }, this), 60 * 1000);
     },
 
     render: function () {
@@ -63,9 +63,9 @@ ScheduleView = Backbone.View.extend({
                 });
 
                 if (closest.length > 0) {
-                    console.log(location, key + ":" + closest[0]);
+                    var next = closest[0];
                     return [location, {
-                        time: key + ":" + closest[0],
+                        time: key + ":" + (next < 10 ? "0".concat(next) : next),
                         offset: (curr * 60 + closest[0]) * 60
                     }];
                 }
@@ -122,7 +122,7 @@ ScheduleItemView = Backbone.View.extend({
     timeLeft: function () {
         var d = new Date();
         var now = (d.getHours() * 60 + d.getMinutes()) * 60 + d.getSeconds();
-        var offset = this.options.offset - now;
+        var offset = Math.max(0, this.options.offset - now);
 
         var output = "";
 
@@ -132,14 +132,10 @@ ScheduleItemView = Backbone.View.extend({
         }
 
         var minutes = Math.floor((offset / 60)) % 60;
-        if (minutes || output) {
-            output = output + (minutes < 10 ? "0".concat(minutes) : minutes) + ":";
-        }
+        output = output + (minutes < 10 ? "0".concat(minutes) : minutes) + ":";
 
         var seconds = offset % 60;
-        if (seconds || output) {
-            output = output + (seconds < 10 ? "0".concat(seconds) : seconds);
-        }
+        output = output + (seconds < 10 ? "0".concat(seconds) : seconds);
 
         return output;
     }
