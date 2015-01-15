@@ -2,6 +2,10 @@
     font-size: 28px;
 }
 
+#departure thead {
+    font-size: 28px;
+}
+
 #departure tbody td:nth-child(2) div:first-child {
     font-size: 28px;
 }
