@@ -13,6 +13,10 @@ _.extend(Schedule.prototype, {
         }).value();
     },
 
+    getGeo: function (location) {
+        return this._data.locations[location].geo;
+    },
+
     getNext: function (location, count, date) {
         if (_.isDate(count)) {
             date = count;

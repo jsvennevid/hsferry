@@ -6,7 +6,7 @@
     }
   },
   "departures": {
-    "walk-distance": "Det kommer ta __time__ minuter att g&aring; till __location__."
+    "walk-distance": "Det kommer ta __time__ minuter att g&aring; till __location__ (__distance__m)."
   },
   "footer": {
     "disclaimer": "Denna applikationen är inte affilierad med <a href=\"http://www.ressel.se/\" target=\"_blank\">Ressel Rederi</a>."

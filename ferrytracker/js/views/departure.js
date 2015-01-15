@@ -128,7 +128,8 @@ DepartureFooterView = FerryTracker.View.extend({
     tagName: 'tr',
     id: "departure-footer",
 
-    initialize: function () {
+    initialize: function (options) {
+        this.options = options;
         this.template = Template.get('departure-footer');
         this.update();
     },
@@ -155,16 +156,44 @@ DepartureFooterView = FerryTracker.View.extend({
         setTimeout(_.bind(this.update, this), 5 * 60 * 1000);
     },
 
-    getPosition: function () {
+    getDirections: function () {
         if (!this._position) {
             return "";
         }
 
-        // TODO: compute distance to closest ferry
+        // FIXME: This is a very inaccurate and naive implementation
+        var bestLocation, bestDistance;
+        _.each(this.options.schedule.getLocations(), function (location) {
+            var geo = this.options.schedule.getGeo(location);
+            var distance = this.distance(geo[0], geo[1], this._position.coords.latitude, this._position.coords.longitude);
+
+            if (_.isUndefined(bestDistance) || (bestDistance > distance)) {
+                bestLocation = location;
+                bestDistance = distance;
+            }
+        }, this);
 
         return i18n.t('departures.walk-distance', {
-            time: "???",
-            location: "???"
+            time: Math.ceil(bestDistance / (7/60)),
+            distance: Math.floor(bestDistance * 1000),
+            location: bestLocation
         });
+    },
+
+    distance: function (lat1, lon1, lat2, lon2) {
+        var deg2rad = Math.PI / 180;
+        lat1 *= deg2rad;
+        lon1 *= deg2rad;
+        lat2 *= deg2rad;
+        lon2 *= deg2rad;
+        var diam = 12742; // Diameter of the earth in km (2 * 6371)
+        var dLat = lat2 - lat1;
+        var dLon = lon2 - lon1;
+        var a = (
+            (1 - Math.cos(dLat)) +
+            (1 - Math.cos(dLon)) * Math.cos(lat1) * Math.cos(lat2)
+            ) / 2;
+
+        return diam * Math.asin(Math.sqrt(a));
     }
 });

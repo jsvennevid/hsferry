@@ -51,6 +51,7 @@
         },
         "Lumabryggan": {
             "geo": [59.305787, 18.099281],
+
             "workday": {
                 "departures": {
                     "06": [5, 25, 45],
