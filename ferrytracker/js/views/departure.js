@@ -1,5 +1,6 @@
 DepartureView = FerryTracker.View.extend({
     className: "container",
+    id: "departure",
 
     initialize: function (options) {
         this.template = Template.get("departure");
@@ -61,7 +62,7 @@ DepartureItemView = FerryTracker.View.extend({
 
     update: function () {
         // TODO: schedule next refresh
-        this._next = this.options.schedule.getNext(this.options.location);
+        this._next = this.options.schedule.getNext(this.options.location, 2);
         if (this._next.length == 0) {
             this.timeout = setTimeout(_.bind(this.update, this), 15 * 60 * 1000);
         } else {
@@ -97,14 +98,13 @@ DepartureItemView = FerryTracker.View.extend({
         return (hours < 10 ? "0".concat(hours) : hours) + ":" + (minutes < 10 ? "0".concat(minutes) : minutes);
     },
 
-    timeLeft: function () {
-        if (this._next.length == 0) {
+    timeLeft: function (index) {
+        var next = this._next[index];
+        if (!next) {
             return "";
         }
 
-        var next = this._next[0];
         var now = new Date();
-
         var delta = Math.max(0, Math.floor((next.getTime() - now.getTime()) / 1000));
 
         var output = "";

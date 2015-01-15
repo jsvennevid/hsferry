@@ -1,5 +1,13 @@
-div#body {
+#departure tbody td:first-child {
     font-size: 28px;
+}
+
+#departure tbody td:nth-child(2) div:first-child {
+    font-size: 28px;
+}
+
+#departure tbody td:nth-child(2) div:last-child {
+    font-size: 14px;
 }
 
 #departure-footer td {
