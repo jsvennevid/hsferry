@@ -4,7 +4,17 @@ DepartureView = FerryTracker.View.extend({
     initialize: function (options) {
         this.template = Template.get("departure");
         this.schedule = options.schedule;
+
+        this.footerView = new DepartureFooterView({schedule: this.schedule});
+
         this.addAll();
+    },
+
+    onClose: function () {
+        if (this.footerView) {
+            this.footerView.close();
+            delete this.footerView;
+        }
     },
 
     render: function () {
@@ -13,6 +23,7 @@ DepartureView = FerryTracker.View.extend({
         _.each(this.getChildViews(), function (item) {
             root.append(item.render().el);
         });
+        this.$el.find('tfoot').append(this.footerView.render().el);
         return this;
     },
 
@@ -110,5 +121,45 @@ DepartureItemView = FerryTracker.View.extend({
         output = output + (seconds < 10 ? "0".concat(seconds) : seconds.toString());
 
         return output;
+    }
+});
+
+DepartureFooterView = FerryTracker.View.extend({
+    tagName: 'tr',
+    id: "departure-footer",
+
+    initialize: function () {
+        this.template = Template.get('departure-footer');
+        this.update();
+    },
+
+    render: function () {
+        this.$el.html(this.template());
+        return this;
+    },
+
+    update: function () {
+        var geolocation = navigator.geolocation;
+        if (geolocation) {
+            geolocation.getCurrentPosition(_.bind(this.onPosition, this), function () {}, {
+                enableHighAccuracy: true,
+                maximumAge: 5 * 60 * 1000
+            });
+        }
+    },
+
+    onPosition: function (position) {
+        this._position = position;
+        this.render();
+
+        setTimeout(_.bind(this.update, this), 5 * 60 * 1000);
+    },
+
+    getPosition: function () {
+        if (!this._position) {
+            return "";
+        }
+
+        return [this._position.coords.latitude, this._position.coords.longitude];
     }
 });

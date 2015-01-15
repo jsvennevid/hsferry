@@ -2,7 +2,8 @@ Template = {};
 
 Template._sources = [
     'departure',
-    'departure-item'
+    'departure-item',
+    'departure-footer'
 ];
 
 Template._templates = {};

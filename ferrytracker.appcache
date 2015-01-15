@@ -32,6 +32,7 @@ ferrytracker/js/main.js
 
 ferrytracker/templates/departure.html
 ferrytracker/templates/departure-item.html
+ferrytracker/templates/departure-footer.html
 
 # Data
 ferrytracker/data/schedule.json

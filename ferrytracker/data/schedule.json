@@ -1,6 +1,8 @@
 {
     "locations": {
         "Barnängsbryggan": {
+            "geo": [59.308056, 18.097509],
+
             "workday": {
                 "departures": {
                     "06": [0, 20, 40],
@@ -48,6 +50,7 @@
             }
         },
         "Lumabryggan": {
+            "geo": [59.305787, 18.099281],
             "workday": {
                 "departures": {
                     "06": [5, 25, 45],
@@ -95,6 +98,8 @@
             }
         },
         "Henriksdalshamnen": {
+            "geo": [59.308752, 18.103334],
+
             "workday": {
                 "departures": {
                     "06": [10, 30, 50],

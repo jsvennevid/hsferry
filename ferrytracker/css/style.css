@@ -2,6 +2,10 @@ div#body {
     font-size: 28px;
 }
 
+#departure-footer td {
+    font-size: 14px;
+}
+
 .container {
     padding: 0
 }
