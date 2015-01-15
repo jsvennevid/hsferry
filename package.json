@@ -1,0 +1,10 @@
+{
+  "name": "ferrytracker",
+  "private": true,
+  "devDependencies": {
+    "request": "^2.51.0",
+    "async": "^0.9.0",
+    "config": "^1.10.0",
+    "debug": "^2.1.1"
+  }
+}

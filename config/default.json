@@ -1,0 +1,7 @@
+{
+  "schedule": {
+    "url": "http://www.ressel.se/tidtabeller/"
+  },
+
+  "manifest": "ferrytracker.appcache"
+}
