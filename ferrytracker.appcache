@@ -1,9 +1,10 @@
 CACHE MANIFEST
-# Hash: mJxfPCqGQvmPH29qem4/M2KHMSI=
+# Hash: B68vDahT55Coynx+Sv9x5wI9r6c=
 
 # External
 //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css
 //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap-theme.min.css
+//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css
 
 //cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js
 //cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js
@@ -14,6 +15,7 @@ CACHE MANIFEST
 //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/fonts/glyphicons-halflings-regular.ttf
 //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/fonts/glyphicons-halflings-regular.woff
 
+//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js
 //cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js
 //cdnjs.cloudflare.com/ajax/libs/async/0.9.0/async.js
 

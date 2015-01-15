@@ -29,3 +29,18 @@ async.parallel([
     }
 });
 
+$(document).ready(function () {
+    var appCache = window.applicationCache;
+    if (appCache) {
+        appCache.addEventListener('updateready', function () {
+            toastr.options = {
+                "positionClass": "toast-bottom-center",
+                "timeOut": 10000,
+                "onclick": function () {
+                    window.location.reload();
+                }
+            };
+            toastr.warning("Click here to reload.", "Application updated");
+        }, false);
+    }
+});
