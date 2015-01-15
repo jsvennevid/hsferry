@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Hash: B68vDahT55Coynx+Sv9x5wI9r6c=
+# Hash: mxKMUOjA8AIGS7mo7KvYRc/Sxg0=
 
 # External
 //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css
@@ -20,20 +20,20 @@ CACHE MANIFEST
 //cdnjs.cloudflare.com/ajax/libs/async/0.9.0/async.js
 
 # Application
-css/style.css
+ferrytracker/css/style.css
 
-js/scripts/mvc.js
-js/scripts/templates.js
-js/scripts/holidays.js
-js/scripts/schedule.js
-js/views/departure.js
-js/main.js
+ferrytracker/js/scripts/mvc.js
+ferrytracker/js/scripts/templates.js
+ferrytracker/js/scripts/holidays.js
+ferrytracker/js/scripts/schedule.js
+ferrytracker/js/views/departure.js
+ferrytracker/js/main.js
 
-templates/departure.html
-templates/departure-item.html
+ferrytracker/templates/departure.html
+ferrytracker/templates/departure-item.html
 
 # Data
-data/schedule.json
+ferrytracker/data/schedule.json
 
 NETWORK:
 *

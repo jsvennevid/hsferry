@@ -15,7 +15,7 @@ var app = new (FerryTracker.Router.extend({
 async.parallel([
     function (callback) {
         $.ajax({
-            url: "data/schedule.json",
+            url: "ferrytracker/data/schedule.json",
             dataType: "json"
         }).done(function (data) {
             app.schedule = new Schedule(data);

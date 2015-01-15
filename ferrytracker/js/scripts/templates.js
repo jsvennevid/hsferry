@@ -11,7 +11,7 @@ Template._missing = _.template('<b>MISSING TEMPLATE</b>');
 Template.preload = function (callback) {
     async.each(Template._sources, function (source, callback) {
         $.ajax({
-            url: "templates/" + source + ".html",
+            url: "ferrytracker/templates/" + source + ".html",
             dataType: 'html'
         }).done(function (data) {
             Template._templates[source] = _.template(data);
