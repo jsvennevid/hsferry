@@ -1,7 +1,9 @@
 CACHE MANIFEST
-# Hash: iN3hdN4H793MJjcFe26ZosAQuhw=
+# Hash: cOk8OGAwTpYuLRXuJgupmOgUwAM=
 
-# External libraries
+# External
+//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css
+//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap-theme.min.css
 //cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js
 //cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js
 //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js
@@ -9,6 +11,7 @@ CACHE MANIFEST
 //cdnjs.cloudflare.com/ajax/libs/async/0.9.0/async.js
 
 # Application
+css/style.css
 js/scripts/mvc.js
 js/scripts/templates.js
 js/scripts/holidays.js
