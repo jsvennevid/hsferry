@@ -24,23 +24,19 @@ function updateCacheManifest(filename, callback) {
                 callback(null);
             });
         }, function (callback) {
-            var re = /(.*)\r?\n/g;
+            lines = content.toString().split(/\r?\n/);
 
-            while (match = re.exec(content)) {
-                var line = match[1];
-
+            lines.forEach(function (line, index) {
                 if (line.indexOf('# Hash: ') == 0) {
-                    hashLine = lines.length;
+                    hashLine = index;
                 }
 
-                lines.push(line);
-
                 if ((line.indexOf('#') == 0) || (line.indexOf('//') == 0) || (line.length == 0) || line.indexOf(':') >= 0 || line.indexOf('*') >= 0 || line.indexOf("CACHE MANIFEST") >= 0) {
-                    continue;
+                    return;
                 }
 
                 files.push(line);
-            }
+            });
 
             if (hashLine < 0) {
                 callback("Could not find hash line");
@@ -74,7 +70,7 @@ function updateCacheManifest(filename, callback) {
                 callback(null);
             });
         }, function (callback) {
-            var output = lines.join('\n') + '\n';
+            var output = lines.join('\n');
             fs.writeFile(config.manifest, output, callback);
         }
     ], callback);
