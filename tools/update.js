@@ -8,7 +8,7 @@ var crypto = require('crypto');
 function updateCacheManifest(filename, callback) {
     var content;
     var lines = [];
-    var files = [];
+    var files = ['index.html'];
     var hashLine = -1;
 
     async.series([
