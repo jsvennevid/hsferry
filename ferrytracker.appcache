@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Hash: cOk8OGAwTpYuLRXuJgupmOgUwAM=
+# Hash: mJxfPCqGQvmPH29qem4/M2KHMSI=
 
 # External
 //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css
@@ -12,12 +12,16 @@ CACHE MANIFEST
 
 # Application
 css/style.css
+
 js/scripts/mvc.js
 js/scripts/templates.js
 js/scripts/holidays.js
 js/scripts/schedule.js
 js/views/departure.js
 js/main.js
+
+templates/departure.html
+templates/departure-item.html
 
 # Data
 data/schedule.json
