@@ -160,6 +160,11 @@ DepartureFooterView = FerryTracker.View.extend({
             return "";
         }
 
-        return [this._position.coords.latitude, this._position.coords.longitude];
+        // TODO: compute distance to closest ferry
+
+        return i18n.t('departures.walk-distance', {
+            time: "???",
+            location: "???"
+        });
     }
 });

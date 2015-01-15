@@ -1,0 +1,14 @@
+{
+  "application": {
+    "updated": {
+      "title": "Applikationen uppdaterad",
+      "content": "Klicka här för att uppdatera."
+    }
+  },
+  "departures": {
+    "walk-distance": "Det kommer ta __time__ minuter att g&aring; till __location__."
+  },
+  "footer": {
+    "disclaimer": "Denna applikationen är inte affilierad med <a href=\"http://www.ressel.se/\" target=\"_blank\">Ressel Rederi</a>."
+  }
+}

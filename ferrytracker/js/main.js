@@ -22,7 +22,17 @@ async.parallel([
         }).always(function () {
             callback();
         });
-    }, Template.preload
+    },
+    Template.preload,
+    function (callback) {
+        i18n.init({
+            detectLngQS: 'lang',
+            load: 'unspecific',
+            resGetPath: 'ferrytracker/data/locales/__lng__/__ns__.json'
+        }, function () {
+            callback(null);
+        });
+    }
 ], function () {
     if (!Backbone.History.started) {
         Backbone.history.start();
@@ -40,7 +50,7 @@ $(document).ready(function () {
                     window.location.reload();
                 }
             };
-            toastr.warning("Click here to reload.", "Application updated");
+            toastr.warning(i18n.t('application.updated.content'), i18n.t('application.updated.title'));
         }, false);
     }
 });

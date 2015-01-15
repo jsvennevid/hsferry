@@ -19,6 +19,7 @@ CACHE MANIFEST
 //cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js
 //cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js
 //cdnjs.cloudflare.com/ajax/libs/async/0.9.0/async.js
+//cdnjs.cloudflare.com/ajax/libs/i18next/1.6.3/i18next-1.6.3.min.js
 
 # Application
 ferrytracker/css/style.css
@@ -36,6 +37,5 @@ ferrytracker/templates/departure-footer.html
 
 # Data
 ferrytracker/data/schedule.json
-
-NETWORK:
-*
+ferrytracker/data/locales/dev/translation.json
+ferrytracker/data/locales/sv/translation.json
