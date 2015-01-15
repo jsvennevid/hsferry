@@ -1,0 +1,23 @@
+CACHE MANIFEST
+# Hash: 1234567890
+
+# External libraries
+//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js
+//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js
+//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js
+//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js
+//cdnjs.cloudflare.com/ajax/libs/async/0.9.0/async.js
+
+# Application
+js/scripts/mvc.js
+js/scripts/templates.js
+js/scripts/holidays.js
+js/scripts/schedule.js
+js/views/departure.js
+js/main.js
+
+# Data
+data/schedule.json
+
+NETWORK:
+*
