@@ -53,7 +53,9 @@ _.extend(Schedule.prototype, {
     },
 
     _classify: function (date) {
-        // TODO: check holiday status
+        if (isHoliday(date)) {
+            return "weekend";
+        }
 
         var hour = date.getHours();
         var weekday = date.getDay();
