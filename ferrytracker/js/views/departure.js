@@ -172,7 +172,7 @@ DepartureFooterView = FerryTracker.View.extend({
             time: Math.ceil(result.duration / 60),
             distance: Math.ceil(result.distance),
             location: result.name,
-            accuracy: this._position.coords.accuracy
+            accuracy: Math.ceil(this._position.coords.accuracy)
         });
     },
 
