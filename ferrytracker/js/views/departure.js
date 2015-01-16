@@ -4,9 +4,9 @@ DepartureView = FerryTracker.View.extend({
 
     initialize: function (options) {
         this.template = Template.get("departure");
-        this.schedule = options.schedule;
+        this.options = options;
 
-        this.footerView = new DepartureFooterView({schedule: this.schedule});
+        this.footerView = new DepartureFooterView({ geomap: this.options.geomap });
 
         this.addAll();
     },
@@ -30,12 +30,12 @@ DepartureView = FerryTracker.View.extend({
 
     addAll: function () {
         this.closeChildViews();
-        _.each(this.schedule.getLocations(), this.addOne, this);
+        _.each(this.options.schedule.getLocations(), this.addOne, this);
         this.render();
     },
 
     addOne: function (location) {
-        var view = new DepartureItemView({ location: location, schedule: this.schedule });
+        var view = new DepartureItemView({ location: location, schedule: this.options.schedule });
         this.addChildView(view);
     }
 });
@@ -161,22 +161,15 @@ DepartureFooterView = FerryTracker.View.extend({
             return "";
         }
 
-        // FIXME: This is a very inaccurate and naive implementation
-        var bestLocation, bestDistance;
-        _.each(this.options.schedule.getLocations(), function (location) {
-            var geo = this.options.schedule.getGeo(location);
-            var distance = this.distance(geo[0], geo[1], this._position.coords.latitude, this._position.coords.longitude);
-
-            if (_.isUndefined(bestDistance) || (bestDistance > distance)) {
-                bestLocation = location;
-                bestDistance = distance;
-            }
-        }, this);
+        var result = this.options.geomap.get("walking", this._position.coords.latitude, this._position.coords.longitude);
+        if (!result) {
+            return "";
+        }
 
         return i18n.t('departures.walk-distance', {
-            time: Math.ceil(bestDistance / (7/60)),
-            distance: Math.floor(bestDistance * 1000),
-            location: bestLocation
+            time: Math.ceil(result.duration / 60),
+            distance: Math.ceil(result.distance),
+            location: result.name
         });
     },
 

@@ -6,9 +6,8 @@ var app = new (FerryTracker.Router.extend({
         "": "showDeparture"
     },
 
-
     showDeparture: function () {
-        this.showView("#body", new DepartureView({ schedule: this.schedule }));
+        this.showView("#body", new DepartureView({ schedule: this.schedule, geomap: this.geomap }));
     }
 }));
 
@@ -19,6 +18,16 @@ async.parallel([
             dataType: "json"
         }).done(function (data) {
             app.schedule = new Schedule(data);
+        }).always(function () {
+            callback();
+        });
+    },
+    function (callback) {
+        $.ajax({
+            url: "ferrytracker/data/geo.json",
+            dataType: "json"
+        }).done(function (data) {
+            app.geomap = new GeoMap(data);
         }).always(function () {
             callback();
         });

@@ -4,5 +4,22 @@
     "target": "ferrytracker/data/schedule.json"
   },
 
-  "manifest": "ferrytracker.appcache"
+  "manifest": "ferrytracker.appcache",
+
+  "geo": {
+    "key": null,
+    "target": "ferrytracker/data/geo.json",
+    "maps": {
+      "walking": {
+        "start": [59.322491, 18.024204],
+        "end": [59.295768, 18.141964],
+        "delta": [-0.003,0.006]
+      }
+    },
+    "locations": {
+      "Barnängsbryggan": [59.308056, 18.097509],
+      "Lumabryggan": [59.305787, 18.099281],
+      "Henriksdalshamnen": [59.308752, 18.103334]
+    }
+  }
 }

@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Hash: 6tlvqXuiQGffDh0PkQKPnp33y8g=
+# Hash: VOjgcwDqLQdlyEjAkRtWnKU5w6E=
 
 # External
 //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css
@@ -15,6 +15,13 @@ CACHE MANIFEST
 //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/fonts/glyphicons-halflings-regular.ttf
 //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/fonts/glyphicons-halflings-regular.woff
 
+//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css
+//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/FontAwesome.otf
+//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/fontawesome-webfont.eot
+//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/fontawesome-webfont.svg
+//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/fontawesome-webfont.ttf
+//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/fontawesome-webfont.woff
+
 //cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js
 //cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js
 //cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js
@@ -28,6 +35,7 @@ ferrytracker/js/scripts/mvc.js
 ferrytracker/js/scripts/templates.js
 ferrytracker/js/scripts/holidays.js
 ferrytracker/js/scripts/schedule.js
+ferrytracker/js/scripts/geomap.js
 ferrytracker/js/views/departure.js
 ferrytracker/js/main.js
 
@@ -37,5 +45,6 @@ ferrytracker/templates/departure-footer.html
 
 # Data
 ferrytracker/data/schedule.json
+ferrytracker/data/geo.json
 ferrytracker/data/locales/dev/translation.json
 ferrytracker/data/locales/sv/translation.json
