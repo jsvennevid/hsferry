@@ -129,39 +129,48 @@ function createRawMap(type, map, locations, callback) {
             return;
         }
 
-        fs.writeFile("dump.json", JSON.stringify(results,null,2), function () {});
+	async.series([
+		function (callback) {
+        		fs.writeFile("dump.json", JSON.stringify(results,null,2), callback);
+		}
+	], function (err) {
+		if (err) {
+			callback(err);
+			return;
+		}
 
-        callback(null, _.compact(coords.map(function (coord, index) {
-            var output = _.reduce(names, function (previous, current) {
-                if (results[current][index].status != "OK") {
-                    return previous;
-                }
+	        callback(null, _.compact(coords.map(function (coord, index) {
+	            var output = _.reduce(names, function (previous, current) {
+	                if (results[current][index].status != "OK") {
+	                    return previous;
+	                }
 
-                var pd = results[previous][index].duration.value;
-                var cd = results[current][index].duration.value;
+	                var pd = results[previous][index].duration.value;
+	                var cd = results[current][index].duration.value;
 
-                if (pd > cd) {
-                    return current;
-                }
+	                if (pd > cd) {
+	                    return current;
+	                }
 
-                return previous;
-            });
+	                return previous;
+	            });
 
-            if (!output) {
-                return null;
-            }
+	            if (!output) {
+	                return null;
+	            }
 
-            return {
-                "p": coord.map(function (v) {
-                    return Number(v.toFixed(6));
-                }),
-                "t": [
-                    results[output][index].duration.value,
-                    results[output][index].distance.value,
-                    _.indexOf(names, output)
-                ]
-            };
-        })));
+	            return {
+	                "p": coord.map(function (v) {
+	                    return Number(v.toFixed(6));
+	                }),
+	                "t": [
+	                    results[output][index].duration.value,
+	                    results[output][index].distance.value,
+	                    _.indexOf(names, output)
+	                ]
+            		};
+        	})));
+	});
     });
 }
 
