@@ -6,6 +6,67 @@ var fs = require('fs');
 var request = require('request');
 var querystring = require('querystring');
 
+function getBounds(filters) {
+    var lats = _.chain(filters).map(function (filter) {
+        return _.map(filter, function (p) {
+            return p[0];
+        });
+    }).flatten().value();
+
+    var lngs = _.chain(filters).map(function (filter) {
+        return _.map(filter, function (p) {
+            return p[1];
+        });
+    }).flatten().value();
+
+    var northEast = [lats.reduce(function (p,c) {
+        return p < c ? p : c;
+    }),lngs.reduce(function (p,c) {
+        return p < c ? p : c;
+    })];
+
+    var southWest = [lats.reduce(function (p,c) {
+        return p > c ? p : c;
+    }),lngs.reduce(function (p,c) {
+        return p > c ? p : c;
+    })];
+
+    return [northEast,southWest];
+}
+
+function generateSamples(filters, delta) {
+    var bounds = getBounds(filters);
+    var points = [];
+
+    var d = [Math.ceil((bounds[1][0]-bounds[0][0])/delta[0]), Math.ceil((bounds[1][1]-bounds[0][1])/delta[1])];
+
+    for (var i = 0; i < d[0]; ++i) {
+        for (var j = 0; j < d[1]; ++j) {
+            var x = bounds[0][0] + i * delta[0];
+            var y = bounds[0][1] + j * delta[1];
+
+            if (!_.some(filters, function (filter) {
+                return isInside(filter, x, y);
+            }, this)) {
+                continue;
+            }
+
+            points.push([x,y]);
+        }
+    }
+
+    return points;
+}
+
+function isInside(poly, x, y) {
+    for(var c = false, i = -1, l = poly.length, j = l - 1; ++i < l; j = i)
+        ((poly[i][1] <= y && y < poly[j][1]) || (poly[j][1] <= y && y < poly[i][1]))
+        && (x < (poly[j][0] - poly[i][0]) * (y - poly[i][1]) / (poly[j][1] - poly[i][1]) + poly[i][0])
+        && (c = !c);
+    return c;
+}
+
+
 function buildBatchDistanceRequest(mode, origins, destination, callback) {
     var maxlen = 2048;
 
@@ -45,22 +106,11 @@ function buildBatchDistanceRequest(mode, origins, destination, callback) {
 }
 
 function createRawMap(type, map, locations, callback) {
-    var size = [map.end[0]-map.start[0], map.end[1]-map.start[1]];
-    var samples = [Math.ceil(size[0]/map.delta[0]),Math.ceil(size[1]/map.delta[1])];
-
-    var coords = [];
-
-    for (var i = 0; i < samples[0]; ++i) {
-        for (var j = 0; j < samples[1]; ++j) {
-            var lat = map.start[0] + map.delta[0] * i;
-            var lon = map.start[1] + map.delta[1] * j;
-
-            coords.push([lat, lon]);
-        }
-    }
+    var coords = generateSamples(map, [0.0025, 0.005]);
 
     var names = _.keys(locations);
     var results = {};
+
 /*
     async.series([
             function (callback) {
@@ -130,9 +180,9 @@ function createRawMap(type, map, locations, callback) {
         }
 
 	async.series([
-		function (callback) {
+/*		function (callback) {
         		fs.writeFile("dump.json", JSON.stringify(results,null,2), callback);
-		}
+		}*/
 	], function (err) {
 		if (err) {
 			callback(err);
@@ -159,7 +209,12 @@ function createRawMap(type, map, locations, callback) {
 	                return null;
 	            }
 
-	            return {
+                var result = results[output][index];
+                if (result.status != "OK") {
+                    return null;
+                }
+
+                return {
 	                "p": coord.map(function (v) {
 	                    return Number(v.toFixed(6));
 	                }),
