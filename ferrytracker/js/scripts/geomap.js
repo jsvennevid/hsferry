@@ -39,9 +39,13 @@ _.extend(GeoMap.prototype, {
         }
 
         var d = this.distance(lat, lon, match.p[0], match.p[1]) * 1000;
+
+        var duration = match.t[0] + (d / ((5*1000)/(60*60)));
+        var distance = match.t[1] + d;
+
         return {
-            duration: match.t[0],
-            distance: match.t[1],
+            duration: duration,
+            distance: distance,
             name: this._data.locations[match.t[2]],
             accuracy: acc > d ? acc : d
         };
