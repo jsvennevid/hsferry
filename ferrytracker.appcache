@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Hash: fZKhRx88/c/3QdnDVunZ+SdD2VE=
+# Hash: tva06L6RMXq2C1ftFGq3IDLjx20=
 
 # External
 //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css
@@ -16,11 +16,11 @@ CACHE MANIFEST
 //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/fonts/glyphicons-halflings-regular.woff
 
 //cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css
-//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/FontAwesome.otf
-//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/fontawesome-webfont.eot
-//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/fontawesome-webfont.svg
-//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/fontawesome-webfont.ttf
-//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/fontawesome-webfont.woff
+//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/FontAwesome.otf?v=4.2.0
+//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/fontawesome-webfont.eot?v=4.2.0
+//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/fontawesome-webfont.svg?v=4.2.0
+//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/fontawesome-webfont.ttf?v=4.2.0
+//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/fonts/fontawesome-webfont.woff?v=4.2.0
 
 //cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js
 //cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js

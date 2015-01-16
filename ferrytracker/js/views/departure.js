@@ -131,7 +131,10 @@ DepartureFooterView = FerryTracker.View.extend({
     initialize: function (options) {
         this.options = options;
         this.template = Template.get('departure-footer');
-        this.update();
+
+        _.defer(_.bind(function () {
+            this.update();
+        }, this));
     },
 
     render: function () {
@@ -142,14 +145,21 @@ DepartureFooterView = FerryTracker.View.extend({
     update: function () {
         var geolocation = navigator.geolocation;
         if (geolocation) {
-            geolocation.getCurrentPosition(_.bind(this.onPosition, this), function () {}, {
+            geolocation.getCurrentPosition(_.bind(this.onPosition, this), _.bind(this.onPositionError, this), {
                 enableHighAccuracy: true,
                 maximumAge: 5 * 60 * 1000
             });
+            this.$el.find("div#spinner").toggleClass('hidden', false);
         }
     },
 
+    onPositionError: function () {
+        this.$el.find("div#spinner").toggleClass('hidden',true);
+    },
+
     onPosition: function (position) {
+        this.$el.find("div#spinner").toggleClass('hidden',true);
+
         this._position = position;
         this.render();
 
