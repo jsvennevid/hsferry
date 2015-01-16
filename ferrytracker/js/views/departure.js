@@ -166,10 +166,13 @@ DepartureFooterView = FerryTracker.View.extend({
             return "";
         }
 
+        console.log(this._position);
+
         return i18n.t('departures.walk-distance', {
             time: Math.ceil(result.duration / 60),
             distance: Math.ceil(result.distance),
-            location: result.name
+            location: result.name,
+            accuracy: this._position.coords.accuracy
         });
     },
 
