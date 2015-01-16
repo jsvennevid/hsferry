@@ -43,7 +43,7 @@ _.extend(GeoMap.prototype, {
             duration: match.t[0],
             distance: match.t[1],
             name: this._data.locations[match.t[2]],
-            delta: d
+            delta: acc > d ? acc : d
         };
     },
 
