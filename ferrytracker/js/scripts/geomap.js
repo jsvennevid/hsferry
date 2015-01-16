@@ -38,12 +38,12 @@ _.extend(GeoMap.prototype, {
             return null;
         }
 
-        var d = this.distance(lat, lon, match.p[0], match.p[1]);
+        var d = this.distance(lat, lon, match.p[0], match.p[1]) * 1000;
         return {
             duration: match.t[0],
             distance: match.t[1],
             name: this._data.locations[match.t[2]],
-            delta: acc > d ? acc : d
+            accuracy: acc > d ? acc : d
         };
     },
 
