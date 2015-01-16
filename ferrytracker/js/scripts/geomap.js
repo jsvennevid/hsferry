@@ -7,7 +7,7 @@ _.extend(GeoMap.prototype, {
         this._data = data;
     },
 
-    get: function (type, lat, lon) {
+    get: function (type, lat, lon, acc) {
         var map = this._data.maps[type];
         if (!map) {
             return null;
@@ -38,10 +38,29 @@ _.extend(GeoMap.prototype, {
             return null;
         }
 
+        var d = this.distance(lat, lon, match.p[0], match.p[1]);
         return {
             duration: match.t[0],
             distance: match.t[1],
-            name: this._data.locations[match.t[2]]
+            name: this._data.locations[match.t[2]],
+            delta: d
         };
+    },
+
+    distance: function (lat1, lon1, lat2, lon2) {
+        var deg2rad = Math.PI / 180;
+        lat1 *= deg2rad;
+        lon1 *= deg2rad;
+        lat2 *= deg2rad;
+        lon2 *= deg2rad;
+        var diam = 12742; // Diameter of the earth in km (2 * 6371)
+        var dLat = lat2 - lat1;
+        var dLon = lon2 - lon1;
+        var a = (
+            (1 - Math.cos(dLat)) +
+            (1 - Math.cos(dLon)) * Math.cos(lat1) * Math.cos(lat2)
+            ) / 2;
+
+        return diam * Math.asin(Math.sqrt(a));
     }
 });

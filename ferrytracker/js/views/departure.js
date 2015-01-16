@@ -161,35 +161,16 @@ DepartureFooterView = FerryTracker.View.extend({
             return "";
         }
 
-        var result = this.options.geomap.get("walking", this._position.coords.latitude, this._position.coords.longitude);
+        var result = this.options.geomap.get("walking", this._position.coords.latitude, this._position.coords.longitude, this._position.coords.accuracy);
         if (!result) {
             return "";
         }
-
-        console.log(this._position);
 
         return i18n.t('departures.walk-distance', {
             time: Math.ceil(result.duration / 60),
             distance: Math.ceil(result.distance),
             location: result.name,
-            accuracy: Math.ceil(this._position.coords.accuracy)
+            accuracy: Math.ceil(result.delta*1000)
         });
-    },
-
-    distance: function (lat1, lon1, lat2, lon2) {
-        var deg2rad = Math.PI / 180;
-        lat1 *= deg2rad;
-        lon1 *= deg2rad;
-        lat2 *= deg2rad;
-        lon2 *= deg2rad;
-        var diam = 12742; // Diameter of the earth in km (2 * 6371)
-        var dLat = lat2 - lat1;
-        var dLon = lon2 - lon1;
-        var a = (
-            (1 - Math.cos(dLat)) +
-            (1 - Math.cos(dLon)) * Math.cos(lat1) * Math.cos(lat2)
-            ) / 2;
-
-        return diam * Math.asin(Math.sqrt(a));
     }
 });
