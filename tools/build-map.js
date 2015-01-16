@@ -1,14 +1,48 @@
-var gm = require('googlemaps');
 var kdtree = require('kdtree');
 var config = require('config');
 var async = require('async');
 var _ = require('lodash');
 var fs = require('fs');
+var request = require('request');
+var querystring = require('querystring');
 
-gm.config('console-key', config.geo.key);
+function buildBatchDistanceRequest(mode, origins, destination, callback) {
+    var maxlen = 2048;
 
-//"delta": [-0.000899,0.001768]
+    var base = '/maps/api/distancematrix/json?';
+    var valid;
 
+    var args = {
+        "key": config.geo.key,
+        "avoid": "ferries",
+        "mode": mode
+    };
+
+    var index = 0;
+    do {
+        index++;
+
+        var local = _.extend({
+            "origins": origins.slice(0, index).map(function (origin) {
+                return origin.join(",");
+            }).join("|"),
+            "destinations": destination.join(",")
+        }, args);
+
+        var path = base + querystring.stringify(local);
+        if (path.length < maxlen) {
+            valid = path;
+        }
+    }
+    while ((path.length < maxlen) && index < origins.length && (index < 10));
+
+    if (!valid) {
+        callback("no path generated");
+        return;
+    }
+
+    callback(null, valid, index);
+}
 
 function createRawMap(type, map, locations, callback) {
     var size = [map.end[0]-map.start[0], map.end[1]-map.start[1]];
@@ -26,79 +60,108 @@ function createRawMap(type, map, locations, callback) {
     }
 
     var names = _.keys(locations);
-    var locs = _.map(locations, function (coord, name) {
-        return [name].concat(coord);
-    });
+    var results = {};
+/*
+    async.series([
+            function (callback) {
+                fs.readFile("dump.json", function (err, data) {
+                    results = JSON.parse(data);
+                    callback(err);
+                });
+            }
+        ]
+*/
+    async.eachSeries(names, function (name, callback) {
+        var index = 0;
 
-    var results = [];
+        var output = [];
 
-    var index = 0;
-    async.eachSeries(coords, function (coord, callback) {
-        var origin = coord.join(",");
-        var distances = {};
+        async.whilst(
+            function () {
+                return index < coords.length
+            }, function (callback) {
+                console.log("%d / %d samples (%s)", index, coords.length, name);
 
-        console.log("%d/%d samples", ++index, samples[0]*samples[1]);
-
-        async.eachSeries(locs, function (loc, callback) {
-            var name = loc.slice(0,1)[0];
-            var dest = loc.slice(1).join(",");
-            callback = _.once(callback);
-
-            gm.directions(origin, dest, function (err, result) {
-                do {
+                buildBatchDistanceRequest(type, coords.slice(index), locations[name], function (err, path, count) {
                     if (err) {
-                        break;
+                        callback(err);
+                        return;
                     }
 
-                    if (result.routes.length == 0) {
-                        break;
-                    }
+                    index += count;
 
-                    try {
-                        distances[name] = {
-                            distance: result.routes[0].legs[0].distance.value,
-                            duration: result.routes[0].legs[0].duration.value
-                        };
-                    } catch (e) {}
-                } while (0);
+                    request.get({
+                        "uri": "https://maps.googleapis.com" + path,
+                        "json": true
+                    }, function (err, response, body) {
+                        if (err || response.statusCode != 200) {
+                            callback(err || "Bad request response");
+                            return;
+                        }
 
-                callback(err);
-            }, 'false', type);
-        }, function (err) {
-            if (err) {
-                callback(err);
-                return;
-            }
+                        if (body.status != "OK") {
+                            callback("Bad response");
+                            return;
+                        }
 
-            if (distances.length == 0) {
-                callback(null);
-                return;
-            }
+                        output = output.concat(_.map(body.rows, function (row) {
+                            return row.elements[0];
+                        }));
 
-            var result = _.reduce(_.keys(distances), function (previous, current) {
-                if (_.isUndefined(previous)) {
-                    return current;
+                        setTimeout(function () {
+                            callback(null);
+                        }, 1000);
+                    });
+                });
+            }, function (err) {
+                if (err) {
+                    callback(err);
+                    return;
                 }
 
-                if (distances[previous].duration > distances[current].duration) {
+                results[name] = output;
+                callback(null);
+            }
+        );
+    }, function (err) {
+        if (err) {
+            callback(err);
+            return;
+        }
+
+        fs.writeFile("dump.json", JSON.stringify(results,null,2), function () {});
+
+        callback(null, _.compact(coords.map(function (coord, index) {
+            var output = _.reduce(names, function (previous, current) {
+                if (results[current][index].status != "OK") {
+                    return previous;
+                }
+
+                var pd = results[previous][index].duration.value;
+                var cd = results[current][index].duration.value;
+
+                if (pd > cd) {
                     return current;
                 }
 
                 return previous;
             });
 
-            results.push({
-                "p": coord,
-                "t": [distances[result].duration,distances[result].distance, _.indexOf(names, result)]
-            });
-            callback(null);
-        });
-    }, function (err) {
-        if (err) {
-            callback(err);
-            return;
-        }
-        callback(null, results);
+            if (!output) {
+                return null;
+            }
+
+            return {
+                "p": coord.map(function (v) {
+                    return Number(v.toFixed(6));
+                }),
+                "t": [
+                    results[output][index].duration.value,
+                    results[output][index].distance.value,
+                    _.indexOf(names, output)
+                ]
+            };
+        })));
     });
 }
 
@@ -129,4 +192,3 @@ async.series([
         console.log("RESULT", err);
     });
 });
-

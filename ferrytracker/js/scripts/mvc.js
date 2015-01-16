@@ -6,6 +6,8 @@ FerryTracker.View = Backbone.View.extend({
             this.onClose();
         }
 
+        this.closeChildViews();
+
         this.remove();
         this.unbind();
     },

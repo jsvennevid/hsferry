@@ -13,13 +13,13 @@
       "walking": {
         "start": [59.322491, 18.024204],
         "end": [59.295768, 18.141964],
-        "delta": [-0.003,0.006]
+        "delta": [-0.005,0.01]
       }
     },
     "locations": {
-      "Barnängsbryggan": [59.308056, 18.097509],
-      "Lumabryggan": [59.305787, 18.099281],
-      "Henriksdalshamnen": [59.308752, 18.103334]
+      "Barnängsbryggan": [59.308253, 18.097773],
+      "Lumabryggan": [59.305584, 18.099329],
+      "Henriksdalshamnen": [59.309671, 18.101797]
     }
   }
 }
