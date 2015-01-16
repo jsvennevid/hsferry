@@ -6,7 +6,7 @@
     }
   },
   "departures": {
-    "walk-distance": "It will take __time__ minutes to walk to __location__ (__distance__m, accuracy __accuracy__m)."
+    "walk-distance": "It will take __time__ minute(s) to walk to __location__ (__distance__m, accuracy __accuracy__m)."
   },
   "footer": {
     "disclaimer": "This application is not affiliated with <a href=\"http://www.ressel.se/\" target=\"_blank\">Ressel Rederi</a>."
