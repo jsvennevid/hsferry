@@ -50,7 +50,7 @@ DepartureItemView = FerryTracker.View.extend({
         this.update();
 
         setInterval(_.bind(function () {
-            this.render();
+            this.tick();
         }, this), 1000);
     },
 
@@ -60,24 +60,48 @@ DepartureItemView = FerryTracker.View.extend({
         }
     },
 
-    update: function () {
-        // TODO: schedule next refresh
-        this._next = this.options.schedule.getNext(this.options.location, 2);
-        if (this._next.length == 0) {
-            this.timeout = setTimeout(_.bind(this.update, this), 15 * 60 * 1000);
-        } else {
+    tick: function () {
+        if (this._next.length > 0) {
             var now = new Date();
             var next = this._next[0];
             var delta = next - now;
 
-            this.timeout = setTimeout(_.bind(this.update, this), delta + 5 * 1000);
+            if (delta < -5000) {
+                this.update();
+            } else {
+                this.render();
+            }
+        } else {
+            this.update();
         }
+    },
 
+    update: function () {
+        this._next = this.options.schedule.getNext(this.options.location, 2);
         this.render();
     },
 
     render: function () {
-        this.$el.html(this.template());
+        if (this.$el.children().length == 0) {
+            this.$el.html(this.template());
+        }
+
+        var location = this.$el.find("td:first-child");
+        var tl1 = this.$el.find("td:nth-child(2) div:first-child");
+        var tl2 = this.$el.find("td:nth-child(2) div:nth-child(2)");
+
+        location.html(this.location());
+        tl1.html(this.timeLeft(0));
+        tl2.html(this.timeLeft(1));
+
+        if (this._next.length > 0) {
+            var now = new Date();
+            var next = this._next[0];
+            var delta = next - now;
+
+            tl1.toggleClass("text-danger", (delta >= 0) && (delta < 60 * 1000));
+            tl1.toggleClass("text-muted", (delta < 0));
+        }
         return this;
     },
 
