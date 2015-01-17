@@ -179,6 +179,7 @@ DepartureFooterView = FerryTracker.View.extend({
 
     onPositionError: function () {
         this.$el.find("div#spinner").toggleClass('hidden',true);
+        setTimeout(_.bind(this.update, this), 60 * 1000);
     },
 
     onPosition: function (position) {
@@ -187,7 +188,7 @@ DepartureFooterView = FerryTracker.View.extend({
         this._position = position;
         this.render();
 
-        setTimeout(_.bind(this.update, this), 5 * 60 * 1000);
+        setTimeout(_.bind(this.update, this), 60 * 1000);
     },
 
     getDirections: function () {
