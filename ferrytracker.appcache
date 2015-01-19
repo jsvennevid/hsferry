@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Hash: 2J6O9yyznjuLotCAC9J41x/lEKU=
+# Hash: 2at861mWT3mjTjSkdS/z2J9FxcU=
 
 # External
 //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css
@@ -40,7 +40,6 @@ ferrytracker/js/scripts/holidays.js
 ferrytracker/js/scripts/schedule.js
 ferrytracker/js/scripts/geomap.js
 ferrytracker/js/views/departure.js
-ferrytracker/js/views/map.js
 ferrytracker/js/main.js
 
 ferrytracker/templates/departure.html
