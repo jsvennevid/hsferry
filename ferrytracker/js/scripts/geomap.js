@@ -25,24 +25,65 @@ _.extend(GeoMap.prototype, {
         var results = tree.nearest({
             lat: coords.latitude,
             lon: coords.longitude
-        }, 1);
+        }, 8, 0.5);
 
-        if (!results.length) {
-            return null;
+        if (results.length == 0) {
+            results = tree.nearest({
+                lat: coords.latitude,
+                lon: coords.longitude
+            }, 1);
         }
-        var result = results[0];
-        var match = result[0];
 
-        var d = this.distance(coords.latitude, coords.longitude, match.lat, match.lon) * 1000;
+        var best = _.chain(results).groupBy(function (result) {
+            return result[0].loc;
+        }).map(function (members, loc) {
+            return {a:loc,b:members.length};
+        }).reduce(function (prev, curr) {
+            return prev.b < curr.b ? curr : prev;
+        }).value();
+        results = _.chain(results).filter(function (r) {
+            return r[0].loc == best.a;
+        }).value();
 
-        var duration = match.dur + (d / ((5*1000)/(60*60)));
-        var distance = match.dst + d;
+        results = _.chain(results).sortBy(function (result) {
+            return result[1];
+        }).value().slice(0,3);
+
+        var dur, dst;
+        if (results.length > 1) {
+            var ofs = results.map(function (result) {
+                var d = 1 / this.distance(result[0].lat, result[0].lon, coords.latitude, coords.longitude);
+                return [d, result[0]];
+            }, this);
+
+            var maxweights = (_.reduce(ofs, function (memo, curr) {
+                return memo + curr[0];
+            }, 0));
+
+            dur = ofs.reduce(function (memo, curr) {
+                var weight = curr[0];
+                var p = weight / maxweights;
+                return memo + curr[1].dur * p;
+            }, 0);
+            dst = ofs.reduce(function (memo, curr) {
+                var weight = curr[0];
+                var p = weight / maxweights;
+                return memo + curr[1].dst * p;
+            }, 0);
+        } else {
+            var result = results[0][0];
+
+            var d = this.distance(result.lat, result.lon, coords.latitude, coords.longitude) * 1000;
+
+            dur = result.dur + (d / ((5*1000)/(60*60)));
+            dst = result.dst + d;
+        }
 
         return {
-            duration: duration,
-            distance: distance,
-            name: this._data.locations[match.loc],
-            accuracy: coords.accuracy > d ? coords.accuracy : d
+            duration: dur,
+            distance: dst,
+            name: this._data.locations[best.a],
+            accuracy: coords.accuracy
         };
     },
 
