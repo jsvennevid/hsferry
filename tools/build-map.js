@@ -106,7 +106,7 @@ function buildBatchDistanceRequest(mode, origins, destination, callback) {
 }
 
 function createRawMap(type, map, locations, callback) {
-    var coords = generateSamples(map, [0.0025 * 0.75, 0.005 * 0.75]);
+    var coords = generateSamples(map, [0.0025 * 0.60, 0.005 * 0.60]);
 
     var names = _.keys(locations);
     var results = {};
