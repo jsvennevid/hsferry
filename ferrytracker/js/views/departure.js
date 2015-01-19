@@ -162,8 +162,9 @@ DepartureFooterView = FerryTracker.View.extend({
     },
 
     onClose: function () {
-        if (this.watch) {
-            clearWatch(this.watch);
+        var geolocation = navigator.geolocation;
+        if (geolocation && this.watch) {
+            geolocation.clearWatch(this.watch);
         }
     },
 
