@@ -106,7 +106,7 @@ function buildBatchDistanceRequest(mode, origins, destination, callback) {
 }
 
 function createRawMap(type, map, locations, callback) {
-    var coords = generateSamples(map, [0.0025, 0.005]);
+    var coords = generateSamples(map, [0.0025 * 0.75, 0.005 * 0.75]);
 
     var names = _.keys(locations);
     var results = {};
@@ -179,35 +179,35 @@ function createRawMap(type, map, locations, callback) {
             return;
         }
 
-	async.series([
-/*		function (callback) {
-        		fs.writeFile("dump.json", JSON.stringify(results,null,2), callback);
-		}*/
-	], function (err) {
-		if (err) {
-			callback(err);
-			return;
-		}
+        async.series([
+            function (callback) {
+                fs.writeFile("dump.json", JSON.stringify(results,null,2), callback);
+            }
+        ], function (err) {
+            if (err) {
+                callback(err);
+                return;
+            }
 
-	        callback(null, _.compact(coords.map(function (coord, index) {
-	            var output = _.reduce(names, function (previous, current) {
-	                if (results[current][index].status != "OK") {
-	                    return previous;
-	                }
+            callback(null, _.compact(coords.map(function (coord, index) {
+                var output = _.reduce(names, function (previous, current) {
+                    if (results[current][index].status != "OK") {
+                        return previous;
+                    }
 
-	                var pd = results[previous][index].duration.value;
-	                var cd = results[current][index].duration.value;
+                    var pd = results[previous][index].duration.value;
+                    var cd = results[current][index].duration.value;
 
-	                if (pd > cd) {
-	                    return current;
-	                }
+                    if (pd > cd) {
+                        return current;
+                    }
 
-	                return previous;
-	            });
+                    return previous;
+                });
 
-	            if (!output) {
-	                return null;
-	            }
+                if (!output) {
+                    return null;
+                }
 
                 var result = results[output][index];
                 if (result.status != "OK") {
@@ -215,17 +215,14 @@ function createRawMap(type, map, locations, callback) {
                 }
 
                 return {
-	                "p": coord.map(function (v) {
-	                    return Number(v.toFixed(6));
-	                }),
-	                "t": [
-	                    results[output][index].duration.value,
-	                    results[output][index].distance.value,
-	                    _.indexOf(names, output)
-	                ]
-            		};
-        	})));
-	});
+                    "lat": Number(coord[0]).toFixed(6),
+                    "lon": Number(coord[1]).toFixed(6),
+                    "dur": results[output][index].duration.value,
+                    "dst": results[output][index].distance.value,
+                    "loc": _.indexOf(names, output)
+                };
+            })));
+        });
     });
 }
 

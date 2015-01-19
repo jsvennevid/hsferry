@@ -157,8 +157,14 @@ DepartureFooterView = FerryTracker.View.extend({
         this.template = Template.get('departure-footer');
 
         _.defer(_.bind(function () {
-            this.update();
+            this.setupWatch();
         }, this));
+    },
+
+    onClose: function () {
+        if (this.watch) {
+            clearWatch(this.watch);
+        }
     },
 
     render: function () {
@@ -166,12 +172,12 @@ DepartureFooterView = FerryTracker.View.extend({
         return this;
     },
 
-    update: function () {
+    setupWatch: function () {
         var geolocation = navigator.geolocation;
         if (geolocation) {
-            geolocation.getCurrentPosition(_.bind(this.onPosition, this), _.bind(this.onPositionError, this), {
+            this.watch = geolocation.watchPosition(_.bind(this.onPosition, this), _.bind(this.onPositionError, this), {
                 enableHighAccuracy: true,
-                maximumAge: 5 * 60 * 1000
+                maximumAge: 90 * 1000
             });
             this.$el.find("div#spinner").toggleClass('hidden', false);
         }
@@ -179,7 +185,6 @@ DepartureFooterView = FerryTracker.View.extend({
 
     onPositionError: function () {
         this.$el.find("div#spinner").toggleClass('hidden',true);
-        setTimeout(_.bind(this.update, this), 60 * 1000);
     },
 
     onPosition: function (position) {
@@ -187,8 +192,6 @@ DepartureFooterView = FerryTracker.View.extend({
 
         this._position = position;
         this.render();
-
-        setTimeout(_.bind(this.update, this), 60 * 1000);
     },
 
     getDirections: function () {
@@ -196,7 +199,11 @@ DepartureFooterView = FerryTracker.View.extend({
             return "";
         }
 
-        var result = this.options.geomap.get("walking", this._position.coords.latitude, this._position.coords.longitude, this._position.coords.accuracy);
+        var result = this.options.geomap.get("walking", {
+            latitude: this._position.coords.latitude,
+            longitude: this._position.coords.longitude,
+            accuracy: this._position.coords.accuracy
+        });
         if (!result) {
             return "";
         }

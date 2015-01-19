@@ -5,49 +5,44 @@ function GeoMap() {
 _.extend(GeoMap.prototype, {
     initialize: function (data) {
         this._data = data;
+
+        this.trees = {};
+        _.each(this._data.maps, function (samples, type) {
+            this.trees[type] = new kdTree(samples, _.bind(function (a,b) {
+                return this.distance(a.lat, a.lon, b.lat, b.lon);
+            }, this), ["lat", "lon"]);
+        }, this);
     },
 
-    get: function (type, lat, lon, acc) {
-        var map = this._data.maps[type];
-        if (!map) {
+    get: function (type, coords) {
+        var tree = this.trees[type];
+        if (!tree) {
             return null;
         }
 
-        // TODO: use a k/d-tree to find closest location instead
         // TODO: take position accuracy into account (sphere query and estimate)
 
-        var match = _.reduce(map, function (previous, current) {
-            if (!previous) {
-                return current;
-            }
+        var results = tree.nearest({
+            lat: coords.latitude,
+            lon: coords.longitude
+        }, 1);
 
-            var px = (lat-previous.p[0]), py = (lon-previous.p[1]);
-            var pd = px*px + py*py;
-
-            var cx = (lat-current.p[0]), cy = (lon-current.p[1]);
-            var cd = cx*cx + cy*cy;
-
-            if (pd > cd) {
-                return current;
-            }
-
-            return previous;
-        });
-
-        if (!match) {
+        if (!results.length) {
             return null;
         }
+        var result = results[0];
+        var match = result[0];
 
-        var d = this.distance(lat, lon, match.p[0], match.p[1]) * 1000;
+        var d = this.distance(coords.latitude, coords.longitude, match.lat, match.lon) * 1000;
 
-        var duration = match.t[0] + (d / ((5*1000)/(60*60)));
-        var distance = match.t[1] + d;
+        var duration = match.dur + (d / ((5*1000)/(60*60)));
+        var distance = match.dst + d;
 
         return {
             duration: duration,
             distance: distance,
-            name: this._data.locations[match.t[2]],
-            accuracy: acc > d ? acc : d
+            name: this._data.locations[match.loc],
+            accuracy: coords.accuracy > d ? coords.accuracy : d
         };
     },
 

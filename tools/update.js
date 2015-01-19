@@ -5,7 +5,7 @@ var fs = require('fs');
 var debug = require('debug')('update');
 var crypto = require('crypto');
 
-function updateCacheManifest(filename, callback) {
+function updateCacheManifest(callback) {
     var content;
     var lines = [];
     var files = ['index.html'];
@@ -76,4 +76,8 @@ function updateCacheManifest(filename, callback) {
     ], callback);
 }
 
-updateCacheManifest();
+updateCacheManifest(function (err) {
+    if (err) {
+        console.log(err);
+    }
+});
