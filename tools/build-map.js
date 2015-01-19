@@ -42,7 +42,7 @@ function generateSamples(filters, delta) {
 
     for (var i = 0; i < d[0]; ++i) {
         for (var j = 0; j < d[1]; ++j) {
-            var x = bounds[0][0] + i * delta[0];
+            var x = bounds[0][0] + i * delta[0] + (j % 2) * (delta[0] * 0.5);
             var y = bounds[0][1] + j * delta[1];
 
             if (!_.some(filters, function (filter) {
