@@ -52,7 +52,7 @@ _.extend(GeoMap.prototype, {
         var dur, dst;
         if (results.length > 1) {
             var ofs = results.map(function (result) {
-                var d = Math.max(0.001,this.distance(result[0].lat, result[0].lon, event.latLng.lat(), event.latLng.lng()));
+                var d = Math.max(0.001,this.distance(result[0].lat, result[0].lon, coords.latitude, coords.longitude));
                 return [1 / (d * d), result[0]];
             }, this);
 
