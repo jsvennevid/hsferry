@@ -1,4 +1,3 @@
-var kdtree = require('kdtree');
 var config = require('config');
 var async = require('async');
 var _ = require('lodash');
@@ -105,16 +104,19 @@ function buildBatchDistanceRequest(mode, origins, destination, callback) {
     callback(null, valid, index);
 }
 
-function createRawMap(type, map, locations, callback) {
+function createRawMap(type, map, locations, explicit, callback) {
     var coords = generateSamples(map, [0.0025 * 0.60, 0.005 * 0.60]);
 
     _.each(locations, function (location) {
         coords.push(location);
     });
 
+    _.each(explicit, function (coord) {
+        coords.push(coord);
+    });
+
     var names = _.keys(locations);
     var results = {};
-
 /*
     async.series([
             function (callback) {
@@ -237,7 +239,7 @@ var maps = {
 
 async.series([
     function (callback) {
-        createRawMap("walking", config.geo.maps.walking, config.geo.locations, function (err, map) {
+        createRawMap("walking", config.geo.maps.walking, config.geo.locations, config.geo.explicit, function (err, map) {
             if (err) {
                 callback(err);
                 return;
