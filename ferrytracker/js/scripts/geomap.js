@@ -47,13 +47,14 @@ _.extend(GeoMap.prototype, {
 
         results = _.chain(results).sortBy(function (result) {
             return result[1];
-        }).value().slice(0,3);
+        }).value().slice(0,5);
 
         var dur, dst;
         if (results.length > 1) {
             var ofs = results.map(function (result) {
-                var d = 1 / this.distance(result[0].lat, result[0].lon, coords.latitude, coords.longitude);
-                return [d, result[0]];
+                var d = Math.max(0.001,this.distance(result[0].lat, result[0].lon, event.latLng.lat(), event.latLng.lng()));
+                console.log(index, d, 1 / (d*d));
+                return [1 / (d * d), result[0]];
             }, this);
 
             var maxweights = (_.reduce(ofs, function (memo, curr) {
