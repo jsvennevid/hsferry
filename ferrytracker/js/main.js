@@ -44,8 +44,8 @@ async.parallel([
     },
     function (callback) {
         addToHomescreen({
-            debug: true,
-            displayPace: 0
+            skipFirstVisit: true,
+            maxDisplayCount: 1
         });
         async.nextTick(callback);
     }
