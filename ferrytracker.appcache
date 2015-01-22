@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# Hash: lu5jstFw0bae+Le5IYgaT4gb4Yw=
+# Hash: MSgogNC7kp2Llny4W92hW7tSy7s=
 
 # External
 //cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css
@@ -30,6 +30,9 @@ CACHE MANIFEST
 
 # Libs
 ferrytracker/lib/kdTree-min.js
+
+ferrytracker/lib/add-to-homescreen/style/addtohomescreen.css
+ferrytracker/lib/add-to-homescreen/src/addtohomescreen.min.js
 
 # Application
 ferrytracker/css/style.css

@@ -41,6 +41,13 @@ async.parallel([
         }, function () {
             callback(null);
         });
+    },
+    function (callback) {
+        addToHomescreen({
+            startDelay: 5,
+            skipFirstVisit: true
+        });
+        async.nextTick(callback);
     }
 ], function () {
     if (!Backbone.History.started) {
