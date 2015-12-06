@@ -6,8 +6,23 @@
     font-size: 28px;
 }
 
+
+
+@media (max-width: 319) {
+
+#departure tbody td:nth-child(2) div:first-child {
+    font-size: 16px;
+}
+
+}
+
+
+@media (min-width: 320) {
+
 #departure tbody td:nth-child(2) div:first-child {
     font-size: 28px;
+}
+
 }
 
 #departure tbody td:nth-child(2) div:last-child {
