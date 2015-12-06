@@ -6,7 +6,7 @@
     font-size: 28px;
 }
 
-@media (max-width: 320) {
+@media screen and (max-width: 320) {
 
 #departure tbody {
     font-size: 20px;
