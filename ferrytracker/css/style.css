@@ -2,19 +2,14 @@
     font-size: 28px;
 }
 
-
-@media (max-width: 339) {
-
 #departure tbody {
     font-size: 28px;
 }
 
-}
-
-@media (min-width: 340) {
+@media (max-width: 320) {
 
 #departure tbody {
-    font-size: 28px;
+    font-size: 20px;
 }
 
 }
