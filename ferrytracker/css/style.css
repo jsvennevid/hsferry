@@ -1,4 +1,4 @@
-#departure tbody td:first-child {
+#departure tbody {
     font-size: 28px;
 }
 
@@ -7,22 +7,24 @@
 }
 
 
-
 @media (max-width: 339) {
 
-#departure tbody td:nth-child(2) div:first-child {
-    font-size: 16px;
+#departure td:first-child {
+   font-size: 16px;
 }
 
 }
-
 
 @media (min-width: 340) {
 
-#departure tbody td:nth-child(2) div:first-child {
-    font-size: 28px;
+#departure td:first-child {
+   font-size: 28px;
 }
 
+}
+
+#departure tbody td:nth-child(2) div:first-child {
+    font-size: 28px;
 }
 
 #departure tbody td:nth-child(2) div:last-child {
