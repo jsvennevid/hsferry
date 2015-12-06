@@ -8,7 +8,7 @@
 
 
 
-@media (max-width: 319) {
+@media (max-width: 339) {
 
 #departure tbody td:nth-child(2) div:first-child {
     font-size: 16px;
@@ -17,7 +17,7 @@
 }
 
 
-@media (min-width: 320) {
+@media (min-width: 340) {
 
 #departure tbody td:nth-child(2) div:first-child {
     font-size: 28px;
